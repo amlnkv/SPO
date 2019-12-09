@@ -1,0 +1,27 @@
+#!/bin/bash
+dir=~/spo1
+cd ~/spo1
+tree -h
+rm $dir/lab1.xls
+mkdir ~/auxiliary
+cd ~/auxiliary
+
+IFS=$'\n'
+files=$(find $dir -type f)
+for file in $files; do
+echo "${file%.*}" >> name.txt
+echo "${file##*.}" >> expansion.txt
+stat --format=%s "$file" >> size.txt
+#size=$(stat --format=%s "$file") 
+#let "size1 = size / 1000000"
+#echo "$size1" >> size.txt
+stat --format=%z "$file" >> time.txt
+duration=$(mediainfo "$file" 2>/dev/null | grep --max-count=1 Duration | awk '{print $3,$4}')
+echo "$duration" >> duration.txt
+done
+
+echo Имя,Расширение,Размер,Время изменения,Длительность > $dir/lab1.xls
+paste --delimiters=',' name.txt expansion.txt size.txt time.txt duration.txt >> $dir/lab1.xls
+
+cd $dir
+rm -r ~/auxiliary
