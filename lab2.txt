@@ -1,0 +1,6 @@
+#!/bin/bash
+git clone https://github.com/Bitmessage/PyBitmessage $HOME/PyBitmessage
+sudo apt-get install python openssl libssl-dev git python-msgpack python-qt4
+cd $HOME/PyBitmessage
+git pull
+~/PyBitmessage/src/bitmessagemain.py
